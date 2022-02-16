@@ -1,0 +1,12 @@
+{"instances":
+  [
+    {
+      "name": "Friendly name 1",
+      "account": "xyz.us-east-1"
+    },
+    {
+      "name": "Friendly name 2",
+      "account": "abc.west-europe.azure"
+    }
+  ]
+}

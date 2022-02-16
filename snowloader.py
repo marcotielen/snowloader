@@ -1,4 +1,4 @@
-# pyinstaller --onefile --windowed --clean --add-data="main_stripped.ui;." --add-data="snowflake_instances.json;." --icon=snowflake.ico --add-data="snowflake.ico;." --splash="snowflake_splash.png" snowloader.py
+# pyinstaller --onefile --windowed --clean --add-data="main.ui;." --add-data="snowflake_instances.json;." --icon=snowflake.ico --add-data="snowflake.ico;." --splash="snowflake_splash.png" snowloader.py
 # in hook-sqlalchemy.py add 'snowflake.sqlalchemy' to hiddenimports array for pyinstaller to pick up the snowflake dialect
 from os import path
 from PyQt5.QtWidgets import (
@@ -19,11 +19,9 @@ from PyQt5.QtWidgets import (
     QDialog
 )
 from snowflake_connection import open_connection
-import ui_def
 from upload_file import UploadFileThread
 from json import load
 import sys
-from io import StringIO
 import webbrowser
 import pandas as pd
 import sqlalchemy
@@ -31,37 +29,40 @@ from table_model import PandasModel
 from PyQt5.uic import loadUi
 from spinner import QtWaitingSpinner
 # add sqlalchemy.snowflake to the hook-sqlalchemy.py in the hiddenimports
-# from sqlalchemy.dialects import registry
-# registry.register('snowflake', 'snowflake.sqlalchemy', 'dialect')
+from sqlalchemy.dialects import registry
+registry.register('snowflake', 'snowflake.sqlalchemy', 'dialect')
 from PyQt5.QtCore import (
     QThreadPool,
     QThread,
     pyqtSlot,
-    Qt,
+    Qt
 )
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
+# for windows icon
+from ctypes import windll
 
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowIcon(QIcon('snowflake.png'))
-
         # enable pysintaller to include files during build
         if getattr(sys, 'frozen', False):
-            main_ui = path.join(sys._MEIPASS, 'main_stripped.ui')
+            main_ui = path.join(sys._MEIPASS, 'main.ui')
             snf_inst = path.join(sys._MEIPASS, 'snowflake_instances.json')
         else:
-            main_ui = path.join(sys.path[0], 'main_stripped.ui')
+            main_ui = path.join(sys.path[0], 'main.ui')
             snf_inst = path.join(sys.path[0], 'snowflake_instances.json')
 
         # load the UI; if statement needed for pyinstaller
         loadUi(main_ui, self)
 
         # load config file with locations
-        with open(snf_inst, 'r') as snowflake_instances:
-            self.snowflake_instances_dict = load(snowflake_instances)
+        try:
+            with open(snf_inst, 'r') as snowflake_instances:
+                self.snowflake_instances_dict = load(snowflake_instances)
+        except FileNotFoundError:
+            self.snowflake_instances_dict = None
 
         # create waiting spinner
         self.wspinner = QtWaitingSpinner(self.uploadTableView)
@@ -94,7 +95,9 @@ class Window(QMainWindow):
         self.actionDocumentation.triggered.connect(self.open_help)
 
         self.environmentComboBox.clear()
-        snf_envs = [snf_env['name'] for snf_env in self.snowflake_instances_dict['instances']]
+        snf_envs = list()
+        if self.snowflake_instances_dict is not None:
+            snf_envs = [snf_env['name'] for snf_env in self.snowflake_instances_dict['instances']]
         snf_envs.append("Other")
         self.environmentComboBox.addItems(snf_envs)
         self.account_name()
@@ -110,7 +113,7 @@ class Window(QMainWindow):
 
     # open help section
     def open_help(self):
-        webbrowser.open('https://www.github.com')
+        webbrowser.open('https://github.com/marcotielen/snowloader')
 
     # toggle between advanced and basic settings
     def show_settings(self):
@@ -153,6 +156,7 @@ class Window(QMainWindow):
 
         else:
             try:
+                self.connectionDescLabel.setVisible(False)
                 self.snow_con, self.con_details = open_connection(snow_envs=self.snowflake_instances_dict,
                                                                   snow_user=self.userLineEdit.text(),
                                                                   snow_account=self.environmentComboBox.currentText(),
@@ -269,12 +273,24 @@ class Window(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    my_app_id = u'opensource.snowloader.main.1'  # arbitrary string
+
+    # windows will show python icon on taskbar if if not registered as separate app
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(my_app_id)
     window = Window()
+
+    icon = QIcon()
+    icon.addPixmap(QPixmap('snowflake.ico'), QIcon.Selected, QIcon.On)
+    window.setWindowIcon(icon)
+    # window.setWindowIcon(QIcon('snowflake.png'))
+
+    # show splash screen
     try:
         # import in try statement as it can only be loaded at runtime after build
         import pyi_splash
         pyi_splash.close()
     except:
         pass
+
     window.show()
     sys.exit(app.exec_())
