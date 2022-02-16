@@ -29,7 +29,7 @@ By default Snowloader assumes a SSO implementation and will connect using the ex
 Configuration is done using the snowflake_instances.json file. This will fill the Account dropdown on the connection tab. Please enter a friendly name and the Snowflake account name in json-style. An example file is present.
 
 ### PyInstaller and Snowloader
-You can run PyInstaller to create a compiled version of Snowloader for easy distribution, optionally including the configuration file for the account dropdown. Please note that generating a single file output will slow down performance. Alternatively, you can build it and use an installer like InstallForge, which will give better performance.
+You can run PyInstaller to create a compiled version of Snowloader for easy distribution, optionally including the configuration file for the account dropdown. Please note that generating a single file output will significantly increase to startup time of the application. Alternatively, you can build it without the --onefile parameter and use an installer like InstallForge, which will give better performance.
 
 Please install PyInstaller using pip ```pip install pyinstaller``` and find the file named hook-sqlalchemy.py in your directory (Lib/site-packages/pyinstaller/hooks/). Open that file and add 'snowflake.sqlalchemy' to the hiddenimports array for pyinstaller to pick up the snowflake dialect. The end result should look like the following:
 ```hiddenimports = ['pysqlite2', 'MySQLdb', 'psycopg2', 'sqlalchemy.ext.baked', 'snowflake.sqlalchemy']```
