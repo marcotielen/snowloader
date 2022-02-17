@@ -26,7 +26,7 @@ By default Snowloader assumes a SSO implementation and will connect using the ex
 6. Press the Upload button. Snowloader will recognize existing tables and give you the option to append, replace or cancel your operation.
 
 ### Account dropdown configuration
-Configuration is done using the snowflake_instances.json file. This will fill the Account dropdown on the connection tab. Please enter a friendly name and the Snowflake account name in json-style. An example file is present.
+Configuration is done using the snowflake_instances.json file, which needs to reside in the same location as the executable. This will fill the Account dropdown on the connection tab. Please enter a friendly name and the Snowflake account name in json-style. An example file is present.
 
 ### PyInstaller and Snowloader
 You can run PyInstaller to create a compiled version of Snowloader for easy distribution, optionally including the configuration file for the account dropdown. Please note that generating a single file output will significantly increase to startup time of the application. Alternatively, you can build it without the --onefile parameter and use an installer like InstallForge, which will give better performance.
