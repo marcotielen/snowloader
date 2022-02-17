@@ -297,7 +297,7 @@
                 <enum>Qt::LeftToRight</enum>
                </property>
                <property name="text">
-                <string>Account</string>
+                <string>Environment</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -547,13 +547,13 @@
   <tabstop>passwordLineEdit</tabstop>
   <tabstop>changeSetLinkButton</tabstop>
   <tabstop>connectionButton</tabstop>
-  <tabstop>tableUploadEdit</tabstop>
-  <tabstop>uploadTableView</tabstop>
-  <tabstop>uploadFileButton</tabstop>
   <tabstop>selectUploadFileButton</tabstop>
-  <tabstop>schemaUploadComboBox</tabstop>
   <tabstop>databaseUploadComboBox</tabstop>
+  <tabstop>schemaUploadComboBox</tabstop>
+  <tabstop>tableUploadEdit</tabstop>
   <tabstop>allTextCheckBox</tabstop>
+  <tabstop>uploadFileButton</tabstop>
+  <tabstop>uploadTableView</tabstop>
  </tabstops>
  <resources/>
  <connections/>
