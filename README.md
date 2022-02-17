@@ -9,7 +9,7 @@ Upload a file:
 ![imagename](upload.png)
 
 ### Windows
-There is a build available for windows in the dist folder that is created using PyInstaller. See the PyInstaller section below for more details on including the configuration into the build.
+There is a build/release available for windows that is created using PyInstaller. You can easily create your own build for other OS's using PyInstaller. Please see the PyInstaller section below for more details on including the Snowflake dialect and the configuration into the build.
 
 ### How to use Snowloader
 #### Connection

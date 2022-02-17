@@ -49,10 +49,11 @@ class Window(QMainWindow):
         # enable pysintaller to include files during build
         if getattr(sys, 'frozen', False):
             main_ui = path.join(sys._MEIPASS, 'main.ui')
-            snf_inst = path.join(sys._MEIPASS, 'snowflake_instances.json')
+            # snf_inst = path.join(sys._MEIPASS, 'snowflake_instances.json')
         else:
             main_ui = path.join(sys.path[0], 'main.ui')
-            snf_inst = path.join(sys.path[0], 'snowflake_instances.json')
+            # snf_inst = path.join(sys.path[0], 'snowflake_instances.json')
+        snf_inst = 'snowflake_instances.json'
 
         # load the UI; if statement needed for pyinstaller
         loadUi(main_ui, self)
@@ -202,12 +203,19 @@ class Window(QMainWindow):
                                                         "CSV Files (*.csv);;TEXT Files (*.txt);;All Files (*)",
                                                         options=options)
         if self.file_name:
-            self.df = pd.read_csv(self.file_name, nrows=100000)
-            self.df = self.df.convert_dtypes()
-            model = PandasModel(self.df)
-            # df.info(verbose=True)
-            self.uploadTableView.setModel(model)
-            # https: // github.com / idevloping / Data - Analyze - in -gui - Pyqt5 - python / blob / main / mainPyside.py
+            try:
+                self.df = pd.read_csv(self.file_name, nrows=100000)
+                self.df = self.df.convert_dtypes()
+                model = PandasModel(self.df)
+                # df.info(verbose=True)
+                self.uploadTableView.setModel(model)
+                # https: // github.com / idevloping / Data - Analyze - in -gui - Pyqt5 - python / blob / main / mainPyside.py
+            except Exception as e:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText(str(e))
+                msg.setWindowTitle("Error")
+                msg.exec_()
 
     def upload_file(self, i):
 
