@@ -1,5 +1,5 @@
 # Snowloader
-Snowloader is an open source GUI for uploading (large) files to Snowflake without the hassle of creating a table and defining data types. Simply connect to Snowflake, pick your file, database, schema and table name and snowloader will do the rest. Optionally append or replace in case the table is already existent.
+Snowloader is an open source GUI for uploading (large) csv-files to Snowflake without the hassle of creating a table and defining data types. Simply connect to Snowflake, pick your file, database, schema and table name and snowloader will do the rest. Optionally append or replace in case the table is already existent.
 
 ### Screenshots
 Create a connection:
