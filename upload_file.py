@@ -52,7 +52,7 @@ class UploadFileThread(QRunnable):
                                        if self.all_text else None)
 
             # upload data using snowflake pandas function (snow_con instead of con!)
-            for chunk in pd.read_csv(self.file_name, chunksize=100000):
+            for chunk in pd.read_csv(self.file_name, chunksize=100000, sep=None, engine="python"):
                 chunk = chunk.convert_dtypes()
                 success, nchunks, nrows, _ = write_pandas(conn=self.snow_con,
                                                           df=chunk,

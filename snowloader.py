@@ -204,7 +204,7 @@ class Window(QMainWindow):
                                                         options=options)
         if self.file_name:
             try:
-                self.df = pd.read_csv(self.file_name, nrows=100000)
+                self.df = pd.read_csv(self.file_name, nrows=100000, sep=None, engine="python")
                 self.df = self.df.convert_dtypes()
                 model = PandasModel(self.df)
                 # df.info(verbose=True)
