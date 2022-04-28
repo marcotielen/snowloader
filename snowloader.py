@@ -1,4 +1,4 @@
-# pyinstaller --onefile --windowed --clean --add-data="main_stripped.ui;." --add-data="snowflake_instances.json;." --icon=snowflake.ico --add-data="snowflake.ico;." --splash="snowflake_splash.png" snowloader.py
+# pyinstaller --onefile --windowed --clean --add-data="main.ui;." --add-data="snowflake_instances.json;." --icon=snowflake.ico --add-data="snowflake.ico;." --splash="snowflake_splash.png" snowloader.py
 # in hook-sqlalchemy.py add 'snowflake.sqlalchemy' to hiddenimports array for pyinstaller to pick up the snowflake dialect
 from os import path
 from PyQt5.QtWidgets import (
