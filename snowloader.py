@@ -35,7 +35,6 @@ from PyQt5.uic import loadUi
 from spinner import QtWaitingSpinner
 # add sqlalchemy.snowflake to the hook-sqlalchemy.py in the hiddenimports
 from sqlalchemy.dialects import registry
-
 registry.register('snowflake', 'snowflake.sqlalchemy', 'dialect')
 from PyQt5.QtCore import (
     QThreadPool,
@@ -632,9 +631,10 @@ class Window(QMainWindow):
                 index = self.multiUploadTableView.model().index(row, self.multi_upload_cols.index('Table Name'))
                 # generate table names: sanitized filename with suffix
                 if self.uniqueTableMultiUploadCheckBox.isChecked():
-                    filename_san = "".join([ch for ch in self.multiUploadTableView.model().index(row,
-                                                                                                 self.multi_upload_cols.index(
-                                                                                                     'Name')).data() if
+                    filename_san = self.multiUploadTableView.model().index(row, self.multi_upload_cols.index('Name')).data()
+                    filename_san = filename_san.split('/')[-1]
+                    filename_san = filename_san.split('\\')[-1]
+                    filename_san = "".join([ch for ch in filename_san if
                                             ch.isalpha() or ch=="_"])
                     self.multiUploadTableView.model().setData(index, filename_san.upper() + '_' + next(gen),
                                                               Qt.EditRole)

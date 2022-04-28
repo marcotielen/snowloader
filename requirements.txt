@@ -14,7 +14,7 @@ pefile==2021.9.3
 pyarrow==6.0.1
 pycparser==2.21
 pycryptodomex==3.14.1
-pyinstaller==4.9
+pyinstaller==5.0.1
 pyinstaller-hooks-contrib==2022.2
 PyJWT==2.3.0
 pyOpenSSL==21.0.0
