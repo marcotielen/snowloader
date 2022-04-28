@@ -8,6 +8,9 @@ Create a connection:
 Upload a file:
 ![imagename](upload.png)
 
+Uploading multiple files:
+![imagename](upload_multiple.png)
+
 ### Windows
 There is a build/release available for windows that is created using PyInstaller. You can easily create your own build for other OS's using PyInstaller. Please see the PyInstaller section below for more details on including the Snowflake dialect and the configuration into the build.
 
@@ -21,9 +24,13 @@ By default Snowloader assumes a SSO implementation and will connect using the ex
 1. Select a file using the "Select file" button
 2. Select your database in the related drop down box
 3. Select your schema in the related drop down box
-4. Enter your table name in the table field
-5. Optionally, check the box for setting the data type for all fields to text/varchar. Otherwise the the tool will use the first 100k lines to determine the data types.
-6. Press the Upload button. Snowloader will recognize existing tables and give you the option to append, replace or cancel your operation.
+4. Select your action type:
+    * Verify if there is an existent table and then choose
+    * Create/Replace: Create if non-existent; Replace if existent
+    * Append: Append the data
+5. Enter your table name in the table field
+6. Optionally, check the box for setting the data type for all fields to text/varchar. Otherwise the the tool will use the first 100k lines to determine the data types.
+7. Press the Upload button. Snowloader will recognize existing tables and give you the option to append, replace or cancel your operation.
 
 ### Account dropdown configuration
 Configuration is done using the snowflake_instances.json file, which needs to reside in the same location as the executable. This will fill the Account dropdown on the connection tab. Please enter a friendly name and the Snowflake account name in json-style. An example file is present.
